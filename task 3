@@ -1,0 +1,66 @@
+import csv
+from gfxhat import touch, lcd, backlight, fonts
+
+dictionary = {}
+with open("font3.txt", "r") as file:
+    for line in file:
+        key, value = line.strip().split(",")
+        dictionary[value] = key
+
+
+def binaryTf(dictkey):
+    str = dictkey
+    l = list(str)
+    l1 = [int(n,base=16) for n in l[2:]]
+    l2 = [bin(n) for n in l1]
+    l3 = []
+    list_len = len(l2)
+    for i in range(list_len):
+        l3.append(l2[i][2:])
+    l4 = [int(n) for n in l3]
+    formatter = "{:04d}".format
+    l4_2 = list(map(formatter, l4))
+    l5 = []
+    for line in l4_2:
+        l5.extend(line)
+    l5 =[int(i) for i in l5]
+    l6 = [l5[i:i+8] for i in range(0,len(l5),8)]
+    finalL = l6
+    return finalL
+
+def dpObj(obj, x, y):
+    lcd.clear()
+    xp = x
+    for y1 in obj:
+        for x2 in y1:
+            lenY = len(obj)
+            lenX = len(y1)
+            if x2 == 1:
+                pixel = 1
+            else:
+                pixel = 0
+            lcd.set_pixel(xp,y,pixel)
+            xp = xp + 1
+        y = y + 1
+        lcd.set_pixel(xp, y , pixel)
+        xp = x
+    lcd.show()
+
+
+lcd.clear()
+lcd.show()
+obj = input('Select character: ')
+try:
+    binaryC = dictionary[obj]
+    lon = binaryTf(binaryC)
+    obj = lon
+    for y1 in obj:
+        for x1 in y1:
+            lenY = len(obj)
+            lenX = len(y1)
+    XPoint = int(input("value of X: "))
+    YPoint = int(input("value of Y: "))
+    dpObj(obj,XPoint, YPoint)
+except:
+    print('NOT FOUND')
+    exit
