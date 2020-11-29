@@ -1,0 +1,38 @@
+import csv
+import os
+
+def convertCsv(path,nameFile):
+    moo = open(path,'r')
+    muu = moo.read()
+    mee = open(nameFile,'w+')
+    maa = mee.read()
+    mee.write('Name,Count\n')
+    try:
+        line = muu.replace(' ',',')
+        mee.write(line)
+    except:
+        print('sth wrong')
+    moo.close()
+    mee.close()
+
+def display(file):
+    print(os.path.abspath(file))
+    with open(file,'r') as f:
+        csv_reader = csv.reader(f)
+        for line in csv_reader:
+            print(line)
+
+while True:
+    option = int(input("Select \n 1.(girl name) \n 2.(boy name) \n 3.quit"))
+    if option == 1:
+      newFile = input('New file name(without .csv): ')
+      outputfile = newFile + '.csv'
+      convertCsv('2000_GirlsNames.txt',outputfile )
+      display(outputfile)
+    elif option == 2:
+      newFile = input('New file name(without .csv): ')
+      outputfile = newFile + '.csv'
+      convertCsv('2000_BoysNames.txt',outputfile)
+      display(outputfile)
+    else:
+        break
